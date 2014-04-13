@@ -1,0 +1,25 @@
+﻿Option Explicit
+'Script written by <Junichiro Horikawa>
+'Script copyrighted by <Junichiro Horikawa>
+'Script version Friday, 01 July 2011 15:48:34
+
+Call Main()
+Sub Main()
+	Dim lngColor,lngColor2, strObject, arrObjects, strObject2
+	strObject = Rhino.GetObject("select object for print color searching base",,True)
+	Rhino.EnableRedraw(False)
+	Rhino.UnselectAllObjects()
+	If Not IsNull(strObject) Then
+		lngColor = Rhino.ObjectPrintColor(strObject)
+		arrObjects = Rhino.NormalObjects()
+		If IsArray(arrObjects) Then
+			For Each strObject2 In arrObjects
+				lngColor2 = Rhino.ObjectPrintColor(strObject2)
+				If lngColor = lngColor2 Then
+					Rhino.SelectObject(strObject2)
+				End If
+			Next
+		End If
+	End If
+	Rhino.EnableRedraw(True)
+End Sub
